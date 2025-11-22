@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/nav_home"
+            android:icon="@android:drawable/ic_menu_call"
+            android:title="Inicio"/>
+    <item
+            android:id="@+id/nav_contacts"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Contactos" />
+    <item
+            android:id="@+id/nav_go_home"
+            android:icon="@android:drawable/ic_menu_directions"
+            android:title="Ir a Casa" />
+
+    <item
+            android:id="@+id/nav_medicines"
+            android:icon="@android:drawable/ic_menu_view"
+            android:title="Medicinas" />
+
+    <item
+            android:id="@+id/nav_settings"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:title="Ajustes" />
+</menu>
