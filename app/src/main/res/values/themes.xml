@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
 
+
+<resources>
+    <style name="Theme.Facitilov2.Bold" parent="Theme.Material3.Light.NoActionBar">
+        <item name="android:textViewStyle">@style/BoldTextStyle</item>
+        <item name="buttonStyle">@style/BoldButtonStyle</item>
+    </style>
+
+    <style name="BoldTextStyle" parent="android:Widget.TextView">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BoldButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:textStyle">bold</item>
+    </style>
     <style name="Theme.Facitilov2" parent="android:Theme.Material.Light.NoActionBar" />
 </resources>

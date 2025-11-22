@@ -14,6 +14,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.button.MaterialButton
+import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 
 class HomeFragment : Fragment() {
 
@@ -40,7 +43,15 @@ class HomeFragment : Fragment() {
         // 1. Verificar si hay contactos guardados
         val prefs = context.getSharedPreferences("FacilitoPrefs", Context.MODE_PRIVATE)
         val contactCount = prefs.getInt("contact_count", 0)
-
+        if (prefs.getBoolean("vibration_enabled", false)) {
+            val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                // Vibrar por 500 milisegundos (medio segundo)
+                vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+            } else {
+                vibrator.vibrate(500)
+            }
+        }
         if (contactCount == 0) {
             Toast.makeText(context, "Agrega contactos primero en la pestaña 'Contactos'", Toast.LENGTH_LONG).show()
             return

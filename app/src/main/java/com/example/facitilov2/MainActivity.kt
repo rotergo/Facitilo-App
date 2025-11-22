@@ -1,6 +1,7 @@
 package com.example.facitilov2
 
 import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -9,17 +10,21 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // 1. Aplicar Tema de Negrita ANTES de crear la vista
+        val prefs = getSharedPreferences("FacilitoPrefs", Context.MODE_PRIVATE)
+        if (prefs.getBoolean("bold_text", false)) {
+            setTheme(R.style.Theme_Facitilov2_Bold) // Usa el estilo que creamos
+        }
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
 
-        // Cargar el fragmento de Inicio por defecto al abrir la app
         if (savedInstanceState == null) {
             replaceFragment(HomeFragment())
         }
 
-        // Configurar los clics en la barra inferior
         bottomNav.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> replaceFragment(HomeFragment())
@@ -33,26 +38,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.fragment_container, fragment)
-        fragmentTransaction.commit()
-    }
-
-    // AGREGA ESTO PARA QUE FUNCIONE EL CAMBIO DE LETRA
+    // 2. Aplicar Escala de Texto (Tamaño)
     override fun attachBaseContext(newBase: Context) {
         val prefs = newBase.getSharedPreferences("FacilitoPrefs", Context.MODE_PRIVATE)
-        val isLargeText = prefs.getBoolean("large_text", false)
+        val scale = prefs.getFloat("text_scale", 1.0f) // Leemos el valor del Slider
 
-        val newConfig = android.content.res.Configuration(newBase.resources.configuration)
-        if (isLargeText) {
-            newConfig.fontScale = 1.30f // Aumenta el tamaño un 30%
-        } else {
-            newConfig.fontScale = 1.0f // Tamaño normal
-        }
+        val config = Configuration(newBase.resources.configuration)
+        config.fontScale = scale
 
-        applyOverrideConfiguration(newConfig)
-        super.attachBaseContext(newBase)
+        val context = newBase.createConfigurationContext(config)
+        super.attachBaseContext(context)
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
     }
 }
